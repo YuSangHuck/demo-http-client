@@ -16,6 +16,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TestControllerTest {
@@ -87,14 +88,14 @@ class TestControllerTest {
     @Test
     public void _400() {
         // given
-        String URI = "http://127.0.0.1:8080/test/400";
+        String URI = baseUrl + "/test/400";
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
 
         // when
-        ResponseEntity resDTO = this.retrievePostForMono(URI, requestBody).block();
+        BadWebClientRequestException e = assertThrows(BadWebClientRequestException.class, () -> this.retrievePostForMono(URI, requestBody).block());
 
         // then
-        assertThat(resDTO.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(e.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
 //    private void 생성() {

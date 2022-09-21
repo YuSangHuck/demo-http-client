@@ -1,7 +1,9 @@
 package com.demo.demohttpclient.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public class BadWebClientRequestException extends RuntimeException {
     private final int rawStatusCode;
     private final HttpStatus statusCode;
