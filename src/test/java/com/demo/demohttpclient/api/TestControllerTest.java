@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
@@ -109,6 +110,19 @@ class TestControllerTest {
 
         // then
         assertThat(e.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Test
+    public void timeout() {
+        // given
+        String URI = baseUrl + "/test/timeout";
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+
+        // when
+        WebClientException e = assertThrows(WebClientException.class, () -> this.retrievePostForMono(URI, requestBody).block());
+
+        // then
+        assertThat(e.getMessage()).contains("ReadTimeoutException");
     }
 
 //    private void 생성() {
