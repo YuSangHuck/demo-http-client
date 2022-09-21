@@ -2,6 +2,7 @@ package com.demo.demohttpclient.api;
 
 import com.demo.demohttpclient.dto.ResDTO;
 import com.demo.demohttpclient.exception.BadWebClientRequestException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,14 @@ class TestControllerTest {
     private int port;
     @Autowired
     private WebClient webClient;
+
+    private String baseUrl;
+
+    //    TODO webClientUrl builder 자체에 뭔가 넣어줘도 되긴할듯? 뭐가나으려나
+    @BeforeEach
+    void setUp() {
+        baseUrl = "http://127.0.0.1:" + port;
+    }
 
     @Test
     public void contestLoads() {
@@ -65,7 +74,7 @@ class TestControllerTest {
     @Test
     public void _200() {
         // given
-        String URI = "http://127.0.0.1:" + port + "/test/200";
+        String URI = baseUrl + "/test/200";
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
 
         // when
