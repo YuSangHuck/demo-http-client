@@ -5,6 +5,7 @@ import com.demo.demohttpclient.exception.BadWebClientRequestException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,10 +16,19 @@ import reactor.core.publisher.Mono;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TestControllerTest {
     @Autowired
+    TestController testController;
+    @LocalServerPort
+    private int port;
+    @Autowired
     private WebClient webClient;
+
+    @Test
+    public void contestLoads() {
+        assertThat(testController).isNotNull();
+    }
 
     private Mono<ResponseEntity<ResDTO>> retrievePostForMono(String uri, MultiValueMap<String, String> body) throws WebClientResponseException {
         return webClient.post()
@@ -55,7 +65,7 @@ class TestControllerTest {
     @Test
     public void _200() {
         // given
-        String URI = "http://127.0.0.1:8080/test/200";
+        String URI = "http://127.0.0.1:" + port + "/test/200";
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
 
         // when
