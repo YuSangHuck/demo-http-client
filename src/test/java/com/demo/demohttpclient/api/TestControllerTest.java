@@ -98,6 +98,19 @@ class TestControllerTest {
         assertThat(e.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
+    @Test
+    public void _500() {
+        // given
+        String URI = baseUrl + "/test/500";
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+
+        // when
+        WebClientResponseException e = assertThrows(WebClientResponseException.class, () -> this.retrievePostForMono(URI, requestBody).block());
+
+        // then
+        assertThat(e.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 //    private void 생성() {
 //        WebClient client1 = WebClient.create();
 //        WebClient client2 = WebClient.create("http://localhost:8080");
