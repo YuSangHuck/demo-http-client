@@ -39,6 +39,7 @@ public class WebClientConfig {
     @Bean
     public HttpClient defaultHttpClient(ConnectionProvider connectionProvider) {
         return HttpClient.create(connectionProvider)
+                .baseUrl("http://127.0.0.1:8080")
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5_000)
                 .doOnConnected(connection -> {
                     connection

@@ -16,12 +16,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class LocalWebClientService {
     private final WebClient webClient;
-    //    FIXME baseUri 대신 webClient 설정에 baseURL 설정
-    private final String baseUri = "http://127.0.0.1:8080";
 
     public Mono<ResponseEntity<ResDTO>> retrievePostForMono(String uri, MultiValueMap<String, String> body) throws WebClientResponseException {
-//        FIXME
-        uri = baseUri + uri;
         return webClient.post()
                 .uri(uri)
                 .bodyValue(body)
@@ -53,8 +49,6 @@ public class LocalWebClientService {
     }
 
     public Mono<ResDTO> exchangePostForMono(String uri, MultiValueMap<String, String> body) {
-//        FIXME
-        uri = baseUri + uri;
         return webClient.post()
                 .uri(uri)
                 .contentType(MediaType.APPLICATION_JSON)
